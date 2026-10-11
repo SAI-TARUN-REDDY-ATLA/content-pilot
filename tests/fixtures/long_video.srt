@@ -1,0 +1,47 @@
+1
+00:00:00,000 --> 00:00:03,850
+So today we're looking at why thumbnails fail at feed size.
+
+2
+00:00:04,050 --> 00:00:07,550
+Thumbnails need contrast, a face, and three words at most.
+
+3
+00:00:07,850 --> 00:00:08,850
+um
+
+4
+00:00:09,050 --> 00:00:11,150
+Most thumbnails use too many words.
+
+5
+00:00:11,250 --> 00:00:14,400
+Most thumbnails use too many words, and they blur.
+
+6
+00:00:14,600 --> 00:00:18,100
+Big faces read at small sizes, tiny text does not.
+
+7
+00:00:22,100 --> 00:00:25,600
+Now let's talk titles and how they truncate on mobile.
+
+8
+00:00:25,900 --> 00:00:29,050
+Titles cut at forty characters on a phone feed.
+
+9
+00:00:29,350 --> 00:00:32,850
+Put the subject first so the cut never loses it.
+
+10
+00:00:37,350 --> 00:00:40,150
+Finally, retention: the first fifteen seconds decide everything.
+
+11
+00:00:40,350 --> 00:00:43,500
+Open a question the viewer cannot close without watching.
+
+12
+00:00:43,800 --> 00:00:46,950
+Then deliver the payoff you promised in the hook.
