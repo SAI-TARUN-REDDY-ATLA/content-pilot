@@ -1,4 +1,4 @@
-"""Command line: python -m content_pilot --topic "..." """
+"""Command line for the pipeline: content-pilot --topic "..." """
 
 import argparse
 from pathlib import Path

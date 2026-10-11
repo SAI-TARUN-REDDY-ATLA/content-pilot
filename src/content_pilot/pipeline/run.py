@@ -5,7 +5,7 @@ import random
 from pathlib import Path
 
 from . import captions, footage, render, script as script_mod, voice
-from .config import Settings
+from ..config import Settings
 
 
 def make_video(topic: str | None, out_dir: Path, settings: Settings | None = None,

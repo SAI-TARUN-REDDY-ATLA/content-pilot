@@ -1,8 +1,8 @@
 import unittest
 
-from content_pilot.captions import align
-from content_pilot.script import Script, emphasized_words
-from content_pilot.voice import Word
+from content_pilot.pipeline.captions import align
+from content_pilot.pipeline.script import Script, emphasized_words
+from content_pilot.pipeline.voice import Word
 
 
 class AlignTest(unittest.TestCase):

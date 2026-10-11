@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "content-pilot"
+version = "0.1.0"
+description = "AI guided YouTube Shorts generator"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "anthropic>=1.13",
+    "edge-tts>=7.0",
+    "pydantic>=2.0",
+    "pillow>=10.0",
+]
+
+[project.optional-dependencies]
+# Producer agent (content-pilot-agent)
+agent = [
+    "deepagents>=0.7.23",
+    "langchain-anthropic>=1.7",
+]
+
+[project.scripts]
+content-pilot = "content_pilot.cli:main"
+content-pilot-agent = "content_pilot.agent.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

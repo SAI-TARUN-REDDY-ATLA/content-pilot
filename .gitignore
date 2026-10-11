@@ -223,3 +223,6 @@ __marimo__/
 output/
 assets/footage/*
 !assets/footage/README.md
+
+# Local agent/editor tooling
+.DS_Store
