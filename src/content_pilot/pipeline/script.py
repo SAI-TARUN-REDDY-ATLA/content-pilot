@@ -1,4 +1,4 @@
-"""Write a short-form script for a topic with Claude."""
+"""Write a short-form script for a topic with the configured model (Gemini by default)."""
 
 import json
 import re
@@ -62,29 +62,17 @@ def emphasized_words(script: Script) -> list[bool]:
 
 
 def write_script(topic: str, model: str, angle: str | None = None) -> Script:
-    """Ask Claude for a script. Needs ANTHROPIC_API_KEY (or another Anthropic credential)."""
-    import anthropic
+    """Ask the model for a structured script. `model` is a LangChain id like google_genai:gemini-3.7-flash."""
+    from langchain.chat_models import init_chat_model
 
-    client = anthropic.Anthropic()
     prompt = f"Topic: {topic}"
     if angle:
         prompt += f"\nAngle: {angle}"
-    response = client.beta.messages.parse(
-        model=model,
-        max_tokens=16000,
-        system=SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": prompt}],
-        output_config={"effort": "medium"},
-        output_format=Script,
-        # If a safety classifier declines, the API retries on a suitable fallback model.
-        betas=["server-side-fallback-2026-07-01"],
-        fallbacks="default",
-    )
-    if response.stop_reason == "refusal":
-        raise RuntimeError(f"Claude declined to write a script for {topic!r}")
-    if response.parsed_output is None:
-        raise RuntimeError(f"No script returned (stop_reason={response.stop_reason})")
-    return response.parsed_output
+    writer = init_chat_model(model).with_structured_output(Script)
+    script = writer.invoke([{"role": "system", "content": SYSTEM_PROMPT}, {"role": "user", "content": prompt}])
+    if script is None:
+        raise RuntimeError(f"No script returned for {topic!r}")
+    return script
 
 
 def load_script(path: Path) -> Script:

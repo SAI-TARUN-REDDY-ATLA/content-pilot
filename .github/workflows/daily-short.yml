@@ -53,11 +53,11 @@ jobs:
       - name: Make, upload and archive today's Short
         id: daily
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-          CONTENT_PILOT_MODEL: ${{ vars.CONTENT_PILOT_MODEL || 'claude-opus-5-5' }}
+          CONTENT_PILOT_MODEL: ${{ vars.CONTENT_PILOT_MODEL || 'google_genai:gemini-3.7-flash' }}
           CONTENT_PILOT_PRIVACY: ${{ vars.CONTENT_PILOT_PRIVACY || 'public' }}
         run: content-pilot-daily ${{ inputs.upload == false && '--no-upload' || '' }}
 

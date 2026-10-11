@@ -17,7 +17,7 @@ Rank with `rank_outliers(data_path, min_multiple=2.0)`.
 ## Collecting the input
 
 You need at least **four videos per channel** or a median means nothing, and the tool will skip the
-channel and tell you it did. Collect them with `web_search` from public channel pages and listings, or use a list the person
+channel and tell you it did. Collect them with `google_search` from public channel pages and listings, or use a list the person
 put in `/inputs/`. Save what you collect as JSON under `/research/` and pass that path to
 `rank_outliers`.
 

@@ -1,4 +1,4 @@
-"""Chat with the producer: content-pilot-agent ["make a short about ..."]"""
+"""Chat with the producer: content-pilot-agent ["optional request"]. With no request it picks a topic itself."""
 
 import json
 import sys
@@ -6,6 +6,7 @@ import uuid
 
 from langgraph.types import Command
 
+from . import prompts
 from .harness import build_agent
 
 
@@ -38,8 +39,9 @@ def _run(agent, payload, config) -> None:
 def main() -> None:
     agent = build_agent()
     config = {"configurable": {"thread_id": str(uuid.uuid4())}, "recursion_limit": 200}
-    first = " ".join(sys.argv[1:])
-    print("content-pilot producer. Describe a video, or 'quit'.")
+    # No request given: the producer finds and researches a topic itself.
+    first = " ".join(sys.argv[1:]) or prompts.SELF_START
+    print("content-pilot producer. It starts on its own; type follow-ups, or 'quit'.")
     while True:
         msg = first or input("you> ").strip()
         first = ""

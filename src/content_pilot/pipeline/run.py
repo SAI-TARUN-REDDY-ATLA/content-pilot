@@ -16,8 +16,8 @@ def make_video(topic: str | None, out_dir: Path, settings: Settings | None = Non
     if script_path:
         script = script_mod.load_script(script_path)
     elif topic:
-        print(f"Writing script with {settings.claude_model}...")
-        script = script_mod.write_script(topic, settings.claude_model)
+        print(f"Writing script with {settings.model}...")
+        script = script_mod.write_script(topic, settings.model)
     else:
         raise ValueError("Give a topic or a script file")
 

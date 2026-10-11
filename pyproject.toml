@@ -9,7 +9,9 @@ description = "AI guided YouTube Shorts generator"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "anthropic>=1.13",
+    "langchain>=1.4",
+    "langchain-google-genai>=4.4",
+    "python-dotenv>=1.0",
     "edge-tts>=7.0",
     "pydantic>=2.0",
     "pillow>=10.0",
@@ -19,7 +21,6 @@ dependencies = [
 # Producer agent (content-pilot-agent)
 agent = [
     "deepagents>=0.7.23",
-    "langchain-anthropic>=1.7",
 ]
 # YouTube upload and analytics (content-pilot-daily, content-pilot-auth)
 youtube = [

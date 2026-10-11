@@ -26,7 +26,7 @@ class DailyResult(BaseModel):
 def build_agent(model: str | None = None, checkpointer=None, autonomous: bool = False):
     """Interactive by default: rendering waits for a person. With autonomous=True there is no
     render tool and no interrupt; the agent stops at a packaged script and returns DailyResult."""
-    model = model or f"anthropic:{Settings().claude_model}"
+    model = model or Settings().model
     extra = {"response_format": DailyResult} if autonomous else {
         "interrupt_on": {"render_video": {"allowed_decisions": ["approve", "edit", "reject"]}}}
     return create_deep_agent(
