@@ -1,0 +1,4 @@
+anthropic>=1.13
+edge-tts>=7.0
+pydantic>=2.0
+pillow>=10.0

@@ -218,3 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Content Pilot
+output/
+assets/footage/*
+!assets/footage/README.md
