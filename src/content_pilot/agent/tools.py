@@ -8,11 +8,12 @@ from langchain.tools import tool
 from pydantic import ValidationError
 
 from ..config import OUTPUT_DIR, ROOT, STUDIO_DIR, Settings
+from ..library import Library
 from ..pipeline import make_video
 from ..pipeline.script import Script, emphasized_words
 
 
-def _studio_path(path: str) -> Path:
+def studio_path(path: str) -> Path:
     """Map an agent path like /scripts/x.json onto studio/, refusing to escape it."""
     resolved = (STUDIO_DIR / path.lstrip("/")).resolve()
     if STUDIO_DIR.resolve() not in resolved.parents:
@@ -28,7 +29,7 @@ def check_script(path: str) -> str:
         path: Studio path to the script, e.g. /scripts/great-emu-war.json
     """
     try:
-        script = Script.model_validate(json.loads(_studio_path(path).read_text()))
+        script = Script.model_validate(json.loads(studio_path(path).read_text()))
     except FileNotFoundError:
         return f"No file at {path}"
     except (json.JSONDecodeError, ValidationError, ValueError) as e:
@@ -69,7 +70,7 @@ def render_video(path: str, voice: str | None = None, seed: int | None = None) -
     settings = Settings()
     if voice:
         settings.voice = voice
-    out = make_video(None, OUTPUT_DIR, settings, script_path=_studio_path(path),
+    out = make_video(None, OUTPUT_DIR, settings, script_path=studio_path(path),
                      seed=seed if seed is not None else random.randrange(10**6))
     meta = json.loads(out.with_suffix(".json").read_text())
     return f"Rendered {out.relative_to(ROOT)} ({meta['duration']}s, background {meta['background']})"
@@ -77,10 +78,15 @@ def render_video(path: str, voice: str | None = None, seed: int | None = None) -
 
 @tool
 def list_videos() -> str:
-    """List videos already rendered, so you don't repeat a topic."""
+    """Every video the channel has made, newest first, with retention once YouTube reports it:
+    views, average % of the Short watched and average seconds watched. Use it to avoid repeating
+    topics and to learn which hooks and topics hold viewers."""
     rows = []
-    for meta in sorted(OUTPUT_DIR.glob("*.json")):
-        data = json.loads(meta.read_text())
-        rows.append(f"- {data.get('title')} ({meta.stem}.mp4, topic: {data.get('topic') or 'n/a'})")
+    for entry in reversed(Library().entries()):
+        meta, st = entry.metadata, entry.stats
+        perf = (f"{st.get('views', 0)} views, {st.get('averageViewPercentage', 0):.0f}% watched, "
+                f"{st.get('averageViewDuration', 0)}s avg" if st else "no stats yet")
+        hook = meta.get("hook", "")
+        rows.append(f"- {meta.get('date', entry.id[:10])} | {meta.get('title')} | topic: {meta.get('topic')} | "
+                    f"{meta.get('status')} | {perf}" + (f"\n  hook: {hook}" if hook else ""))
     return "\n".join(rows) or "No videos yet."
-

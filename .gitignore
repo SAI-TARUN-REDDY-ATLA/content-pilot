@@ -226,3 +226,19 @@ assets/footage/*
 
 # Local agent/editor tooling
 .DS_Store
+
+# Large video artifacts live in GitHub releases, not git
+library/**/*.mp4
+library/**/*.mp3
+
+# Agent drafts; finished work is archived in library/
+studio/research/*
+studio/scripts/*
+studio/packages/*
+studio/reports/*
+studio/plans/*
+studio/inputs/*
+!studio/*/.gitkeep
+
+# YouTube OAuth client file
+client_secret*.json

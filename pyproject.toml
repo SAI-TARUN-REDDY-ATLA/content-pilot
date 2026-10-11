@@ -21,10 +21,21 @@ agent = [
     "deepagents>=0.7.23",
     "langchain-anthropic>=1.7",
 ]
+# YouTube upload and analytics (content-pilot-daily, content-pilot-auth)
+youtube = [
+    "google-api-python-client>=2.150",
+    "google-auth-oauthlib>=1.2",
+]
 
 [project.scripts]
 content-pilot = "content_pilot.cli:main"
 content-pilot-agent = "content_pilot.agent.cli:main"
+content-pilot-daily = "content_pilot.daily:main"
+content-pilot-auth = "content_pilot.youtube.auth:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+# Vendored youtube-agent-skill scripts and their hook formulas
+content_pilot = ["agent/youtube_kit/**/*"]

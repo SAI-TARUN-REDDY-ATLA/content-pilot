@@ -1,0 +1,95 @@
+name: Daily Short
+
+on:
+  schedule:
+    # 18:30 UTC = 12:00 am IST. GitHub may start scheduled runs a few minutes late.
+    - cron: "30 18 * * *"
+  workflow_dispatch:
+    inputs:
+      upload:
+        description: Upload to YouTube
+        type: boolean
+        default: true
+
+permissions:
+  contents: write # commit the archive and publish the video release
+
+concurrency:
+  group: daily-short
+  cancel-in-progress: false
+
+jobs:
+  make-short:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install ffmpeg and fonts
+        run: sudo apt-get update -q && sudo apt-get install -yq ffmpeg fonts-dejavu-core
+
+      - name: Install content-pilot
+        run: pip install -e '.[agent,youtube]'
+
+      - name: Fetch background footage
+        env:
+          FOOTAGE_URL: ${{ secrets.FOOTAGE_URL }}
+        run: |
+          if [ -n "$FOOTAGE_URL" ]; then
+            curl -fsSL "$FOOTAGE_URL" -o footage.zip
+            unzip -oq footage.zip -d assets/footage
+            ls assets/footage
+          else
+            echo "::warning::FOOTAGE_URL not set; rendering over the placeholder gradient"
+          fi
+
+      - name: Make, upload and archive today's Short
+        id: daily
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          CONTENT_PILOT_MODEL: ${{ vars.CONTENT_PILOT_MODEL || 'claude-opus-5-5' }}
+          CONTENT_PILOT_PRIVACY: ${{ vars.CONTENT_PILOT_PRIVACY || 'public' }}
+        run: content-pilot-daily ${{ inputs.upload == false && '--no-upload' || '' }}
+
+      - name: Keep the run's files as a workflow artifact
+        if: always() && steps.daily.outputs.entry
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.daily.outputs.entry }}
+          path: library/${{ steps.daily.outputs.entry }}/
+          retention-days: 90
+
+      - name: Publish the video to a release
+        if: success() && steps.daily.outputs.entry
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ENTRY: ${{ steps.daily.outputs.entry }}
+        run: |
+          dir="library/$ENTRY"
+          jq -r '"\(.title)\n\n\(.description)\n\nTopic: \(.topic)\nYouTube: \(.youtube_url // "not uploaded")\nHook score: \(.hook_score)\nWhy: \(.why)"' \
+            "$dir/metadata.json" > notes.md
+          gh release create "video-$ENTRY" "$dir/video.mp4" $(ls "$dir"/voice.mp3 2>/dev/null) \
+            --title "$(jq -r .title "$dir/metadata.json")" --notes-file notes.md --target main
+
+      - name: Commit the archive
+        if: always() && steps.daily.outputs.entry
+        env:
+          ENTRY: ${{ steps.daily.outputs.entry }}
+        run: |
+          git config user.name "content-pilot[bot]"
+          git config user.email "content-pilot[bot]@users.noreply.github.com"
+          git add library studio/AGENTS.md
+          git diff --cached --quiet && exit 0
+          git commit -m "Archive daily Short $ENTRY"
+          git pull --rebase origin main
+          git push origin HEAD:main

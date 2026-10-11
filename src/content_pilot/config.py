@@ -9,6 +9,7 @@ ROOT = Path(os.getenv("CONTENT_PILOT_HOME", Path(__file__).resolve().parents[2])
 ASSETS_DIR = ROOT / "assets"
 OUTPUT_DIR = ROOT / "output"
 STUDIO_DIR = ROOT / "studio"  # the producer agent's workspace
+LIBRARY_DIR = ROOT / "library"  # every finished video and what made it
 
 FONT_CANDIDATES = [
     "/System/Library/Fonts/Supplemental/Impact.ttf",
