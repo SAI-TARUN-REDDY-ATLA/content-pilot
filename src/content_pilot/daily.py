@@ -83,11 +83,13 @@ def hook_score(hook: str) -> int | None:
     return int(m.group(1)) if m else None
 
 
-def run(upload: bool, model: str | None = None) -> Entry:
+def run(upload: bool, model: str | None = None, settings: Settings | None = None) -> Entry:
     from .agent.tools import studio_path
     from .pipeline import make_video
     from .pipeline.script import load_script
 
+    settings = settings or Settings()
+    model = model or settings.model
     library = Library()
     today = date.today()
     refresh_stats(library)
@@ -102,7 +104,7 @@ def run(upload: bool, model: str | None = None) -> Entry:
     entry.update(date=today.isoformat(), topic=result.topic, slug=result.slug, title=script.title,
                  hook=script.hook, description=script.description, hashtags=script.hashtags,
                  thumbnail_text=result.thumbnail_text, why=result.why, check=verdict,
-                 hook_score=hook_score(script.hook), model=model or Settings().claude_model,
+                 hook_score=hook_score(script.hook), model=model,
                  run_url=_run_url(), release_url=_release_url(entry), status="scripted")
     entry.add(script_file, "script.json")
     for src, name in ((result.research_path, "research.md"), (result.package_path, "package.md")):
@@ -113,7 +115,7 @@ def run(upload: bool, model: str | None = None) -> Entry:
 
     try:
         with tempfile.TemporaryDirectory() as tmp:
-            video = make_video(None, Path(tmp), Settings(), script_path=script_file,
+            video = make_video(None, Path(tmp), settings, script_path=script_file,
                                seed=int(today.strftime("%Y%m%d")))
             render_meta = json.loads(video.with_suffix(".json").read_text())
             work = Path(tmp) / f"work_{video.stem}"
@@ -164,7 +166,7 @@ def _github_output(**values) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(prog="content-pilot-daily", description=__doc__.split("\n")[0])
     parser.add_argument("--no-upload", action="store_true", help="Do everything except the YouTube upload")
-    parser.add_argument("--model", help="Override the model, e.g. anthropic:claude-sonnet-5-5")
+    parser.add_argument("--model", help="Override the model, e.g. google_genai:gemini-3.1-pro-preview")
     args = parser.parse_args()
     try:
         entry = run(upload=not args.no_upload, model=args.model)

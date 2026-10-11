@@ -36,7 +36,7 @@ When the person gives feedback worth keeping, add a one-line note under "Lessons
 /AGENTS.md."""
 
 TREND_SCOUT = """You find what is working right now in the channel's niche. Load the yt-viral \
-skill. Collect public listings with web_search (at least four videos per channel), save them as \
+skill. Collect public listings with google_search (at least four videos per channel), save them as \
 JSON in the path you were given, and rank them with rank_outliers. Reply with the top five, \
 their multiples and formulas, the one structural thing they share, and three topic candidates \
 this channel could make as a Short this week, each with a one-line angle."""
@@ -98,3 +98,7 @@ when the numbers teach something new.
 DAILY_BRIEF = """Make today's Short for the channel. Pick a fresh topic in the channel's niche \
 (ask trend-scout for what is working now), research it, write it, have it critiqued, package it, \
 and return the result. Today's date is {today}."""
+
+SELF_START = """Make the next Short for the channel. Don't ask me for a topic: call list_videos, \
+have trend-scout find what is working in the niche now, pick the strongest fresh topic yourself, \
+and take it all the way through research, script, critique and packaging to render."""

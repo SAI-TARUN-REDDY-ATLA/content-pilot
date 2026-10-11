@@ -15,8 +15,8 @@ from .tools import check_script, list_videos
 from .youtube_tools import (find_dead_air, lint_title, make_chapters, rank_outliers, read_retention,
                             score_hooks)
 
-# Anthropic's server-side web search; no extra key needed.
-WEB_SEARCH = {"type": "web_search_20260209", "name": "web_search"}
+# Gemini's built-in Google Search grounding; no extra key needed.
+WEB_SEARCH = {"google_search": {}}
 
 
 def skills(*groups: str) -> list[str]:

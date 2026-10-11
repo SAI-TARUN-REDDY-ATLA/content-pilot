@@ -6,7 +6,7 @@ voiceover and word-by-word pop captions over looping background footage.
 
 ## How a video is made
 
-1. **Script**: Claude (`claude-opus-5-5`) writes a hook, short escalating lines and a
+1. **Script**: Gemini (`gemini-3.7-flash` by default) writes a hook, short escalating lines and a
    loop line that flows back into the hook, with key words marked for highlighting.
 2. **Voice**: free Microsoft Edge neural TTS reads it and reports each word's timing.
 3. **Captions**: one word at a time, upper-case, thick outline, a short "pop" on entry,
@@ -20,22 +20,32 @@ Requires Python 3.10+ and `ffmpeg` on your PATH.
 
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
-pip install -e .            # pipeline only
-pip install -e '.[agent]'   # plus the producer agent
-
-# No API key needed: render the bundled example script
-content-pilot --script examples/scripts/emu_war.json
-
-# Claude writes the script (needs ANTHROPIC_API_KEY)
-export ANTHROPIC_API_KEY=...
-content-pilot --topic "The Great Emu War of 1932"
+pip install -e '.[agent,youtube]'
+cp .env.example .env        # then put your Gemini key in GOOGLE_API_KEY
 ```
 
-Output goes to `output/<slug>.mp4`, with `<slug>.json` holding the title, description
-and hashtags, and `output/work_<slug>/` holding the script, voice and caption timings.
+Get a Gemini key at [Google AI Studio](https://aistudio.google.com/apikey). `.env` is
+git-ignored and loaded automatically; real environment variables take priority over it.
 
-Options: `--voice en-US-AndrewNeural`, `--footage path/to/clips`, `--seed 7`,
-`--out folder`. Put your own background clips in `assets/footage/` (see its README).
+```bash
+content-pilot               # agents research a topic themselves, write it, render it
+content-pilot --upload      # same, then upload to YouTube
+```
+
+With no arguments nothing asks you for a topic: the trend-scout finds what is working in the
+niche, the team researches and writes it, and the video is saved to
+`library/<date>_<slug>/video.mp4` with everything that made it.
+
+Other modes:
+
+```bash
+content-pilot --topic "the spotlight effect"            # one model call, no agents
+content-pilot --script examples/scripts/emu_war.json    # render a script, no API key
+```
+
+These two write to `output/<slug>.mp4`. Options for all modes: `--voice en-US-AndrewNeural`,
+`--footage path/to/clips`, `--seed 7`, `--model google_genai:gemini-3.1-pro-preview`.
+Put your own background clips in `assets/footage/` (see its README).
 
 ## Producer agent
 
@@ -47,8 +57,8 @@ skills its job needs. The YouTube skills and analysis scripts come from
 | Agent | Does | Skills | Tools |
 | --- | --- | --- | --- |
 | producer | plans, briefs the team, renders | yt-plan | check_script, render_video, list_videos |
-| trend-scout | what is working in the niche, by outlier multiple | yt-viral | web_search, rank_outliers |
-| researcher | sourced facts on a topic | - | web_search |
+| trend-scout | what is working in the niche, by outlier multiple | yt-viral | google_search, rank_outliers |
+| researcher | sourced facts on a topic | - | google_search |
 | scriptwriter | five hooks scored, script written and validated | shorts-script, yt-script | score_hooks, check_script |
 | critic | independent retention review | shorts-script, yt-script | score_hooks |
 | packager | title + thumbnail pairing, description, hashtags | yt-package, yt-seo | lint_title, check_script |
@@ -57,9 +67,8 @@ skills its job needs. The YouTube skills and analysis scripts come from
 | community | comment triage and replies | yt-comment | - |
 
 ```bash
-export ANTHROPIC_API_KEY=...
-content-pilot-agent "a short about the dancing plague of 1518"
-content-pilot-agent "find what's working in weird history shorts and make the best one"
+content-pilot-agent             # picks its own topic, asks you before rendering
+content-pilot-agent "a short about the spotlight effect"
 content-pilot-agent "cut three shorts and chapters from /inputs/episode-12.srt"
 content-pilot-agent "why is retention bad on this one? /inputs/retention.csv"
 ```
@@ -99,7 +108,7 @@ library/
     video.mp4  voice.mp3            git-ignored; kept in the release
 ```
 
-Run it locally without uploading: `content-pilot-daily --no-upload`.
+Run the same thing locally: `content-pilot` (add `--upload` to publish).
 
 ### One-time setup
 
@@ -112,7 +121,7 @@ Run it locally without uploading: `content-pilot-daily --no-upload`.
    pip install -e '.[agent,youtube]'
    content-pilot-auth path/to/client_secret.json
    ```
-3. **GitHub secrets** (Settings > Secrets and variables > Actions): `ANTHROPIC_API_KEY`,
+3. **GitHub secrets** (Settings > Secrets and variables > Actions): `GOOGLE_API_KEY`,
    `YOUTUBE_CLIENT_ID`, `YOUTUBE_CLIENT_SECRET`, `YOUTUBE_REFRESH_TOKEN`, and optionally
    `FOOTAGE_URL`, a direct link to a .zip of background clips. Without it videos render over a
    placeholder gradient. Optional variables: `CONTENT_PILOT_MODEL`, `CONTENT_PILOT_PRIVACY`.
@@ -130,7 +139,7 @@ src/content_pilot/
   cli.py              content-pilot command
   config.py           settings and project paths (env overrides)
   pipeline/           one module per stage of making a video
-    script.py         Claude writes the script (Script model)
+    script.py         the model writes the script (Script model)
     voice.py          Edge TTS voiceover with word timings
     captions.py       word-by-word caption frames
     footage.py        background clip selection
