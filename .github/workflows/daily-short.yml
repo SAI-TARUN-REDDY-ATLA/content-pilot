@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   make-short:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # pinned: ubuntu-latest moves to Ubuntu 26 on 2026-10-19
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v5
@@ -36,9 +36,11 @@ jobs:
         run: sudo apt-get update -q && sudo apt-get install -yq ffmpeg fonts-dejavu-core
 
       - name: Install content-pilot
+        id: install
         run: pip install -e '.[agent,youtube]'
 
       - name: Fetch background footage
+        id: footage
         env:
           FOOTAGE_URL: ${{ secrets.FOOTAGE_URL }}
         run: |
@@ -70,6 +72,7 @@ jobs:
           retention-days: 90
 
       - name: Publish the video to a release
+        id: release
         if: success() && steps.daily.outputs.entry
         env:
           GH_TOKEN: ${{ github.token }}
@@ -81,15 +84,33 @@ jobs:
           gh release create "video-$ENTRY" "$dir/video.mp4" $(ls "$dir"/voice.mp3 2>/dev/null) \
             --title "$(jq -r .title "$dir/metadata.json")" --notes-file notes.md --target main
 
-      - name: Commit the archive
-        if: always() && steps.daily.outputs.entry
+      # Read by the Claude monitor routine. Only outcomes and whether each secret is set; never values.
+      - name: Record run status
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+          OUTCOME_INSTALL: ${{ steps.install.outcome }}
+          OUTCOME_FOOTAGE: ${{ steps.footage.outcome }}
+          OUTCOME_DAILY: ${{ steps.daily.outcome }}
+          OUTCOME_RELEASE: ${{ steps.release.outcome }}
+          ENTRY: ${{ steps.daily.outputs.entry }}
+          HAS_GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY != '' }}
+          HAS_YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID != '' }}
+          HAS_YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET != '' }}
+          HAS_YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN != '' }}
+          HAS_FOOTAGE_URL: ${{ secrets.FOOTAGE_URL != '' }}
+        run: python .github/scripts/record_status.py
+
+      - name: Commit the archive and status
+        if: always()
         env:
           ENTRY: ${{ steps.daily.outputs.entry }}
         run: |
           git config user.name "content-pilot[bot]"
           git config user.email "content-pilot[bot]@users.noreply.github.com"
-          git add library studio/AGENTS.md
+          git add status
+          if [ -n "$ENTRY" ]; then git add library studio/AGENTS.md; fi
           git diff --cached --quiet && exit 0
-          git commit -m "Archive daily Short $ENTRY"
+          git commit -m "Daily Short ${ENTRY:-run}: $(jq -r .job_status status/last-run.json)"
           git pull --rebase origin main
           git push origin HEAD:main
