@@ -4,6 +4,8 @@ import asyncio
 from dataclasses import dataclass
 from pathlib import Path
 
+ATTEMPTS = 3
+
 
 @dataclass
 class Word:
@@ -28,9 +30,19 @@ async def _synthesize(text: str, out: Path, voice: str, rate: str) -> list[Word]
 
 
 def synthesize(text: str, out: Path, voice: str, rate: str = "+0%") -> list[Word]:
-    """Write an MP3 to `out` and return the spoken words with their timings."""
+    """Write an MP3 to `out` and return the spoken words with their timings.
+
+    The free Edge endpoint sometimes stalls mid-stream, so each attempt has a hard time limit."""
     out.parent.mkdir(parents=True, exist_ok=True)
-    words = asyncio.run(_synthesize(text, out, voice, rate))
-    if not words:
-        raise RuntimeError("Edge TTS returned no word timings")
-    return words
+    limit = 60 + len(text.split()) * 0.5  # seconds; a 5-minute script normally takes about a minute
+    error: Exception | None = None
+    for attempt in range(ATTEMPTS):
+        try:
+            words = asyncio.run(asyncio.wait_for(_synthesize(text, out, voice, rate), limit))
+            if words:
+                return words
+            error = RuntimeError("Edge TTS returned no word timings")
+        except Exception as e:  # TimeoutError, dropped websocket, 403 during a handshake rotation
+            error = e
+        print(f"  voiceover attempt {attempt + 1} failed: {type(error).__name__}: {error}")
+    raise RuntimeError(f"Edge TTS failed {ATTEMPTS} times: {error}")

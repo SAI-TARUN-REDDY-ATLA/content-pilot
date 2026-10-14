@@ -1,24 +1,256 @@
 {
-  "title": "Australia Declared War on Birds. The Birds Won.",
-  "hook": "Australia once sent *machine guns* after birds, and *lost*.",
-  "lines": [
-    "In 1932, twenty thousand *emus* were flattening wheat farms in Western Australia.",
-    "So the army sent Major Meredith, two soldiers, and two *Lewis guns*.",
-    "Easy, right? *Wrong.*",
-    "The emus split into tiny groups and *scattered* the second shooting started.",
-    "One ambush ended with a *jammed gun* and twelve dead emus.",
-    "They even mounted a gun on a truck. The emus simply *outran it*.",
-    "But here's the crazy part.",
-    "Meredith said they faced machine guns like *tanks*.",
-    "After nearly ten thousand rounds, the army *pulled out*."
+  "title": "Australia Declared War on Emus. The Emus Won.",
+  "characters": [
+    {
+      "name": "Meredith",
+      "look": "Major Meredith: stocky Australian army officer, khaki 1930s uniform, slouch hat pinned up on one side, neat brown moustache, round wire glasses, binoculars around his neck"
+    },
+    {
+      "name": "Pearce",
+      "look": "Sir George Pearce: tall thin elderly politician, dark three-piece suit, bald head, white walrus moustache, gold pocket watch"
+    },
+    {
+      "name": "farmers",
+      "look": "weathered Australian wheat farmers and First World War veterans: dusty work shirts, braces, wide-brimmed hats, sunburnt faces"
+    },
+    {
+      "name": "emu",
+      "look": "tall shaggy grey-brown cartoon emus with long necks, big orange eyes and smug, mischievous expressions"
+    }
   ],
-  "loop_line": "So next time someone says humans *rule this planet*, just remind them:",
-  "description": "The Great Emu War of 1932, when the Australian army took on twenty thousand emus and retreated.",
+  "chapters": [
+    {
+      "title": "Cold Open",
+      "scenes": [
+        {
+          "narration": "In 1932, the Australian army declared war on a bird. And the bird *won*.",
+          "image": "Meredith standing proudly beside a machine gun in a golden wheat field while a single emu behind him calmly eats his hat"
+        },
+        {
+          "narration": "This is the story of the Great *Emu War*. Machine guns, a retreat, and one very confident bird.",
+          "image": "dozens of emus marching in formation across an outback plain at sunset like a victorious army, dust rising behind them"
+        },
+        {
+          "narration": "It is completely real. Newspapers mocked it, Parliament discussed it, and the army *still* lost.",
+          "image": "a 1930s newsboy on a city street holding up a newspaper with a big drawing of an emu on the front while passers-by laugh"
+        }
+      ]
+    },
+    {
+      "title": "Soldiers Become Farmers",
+      "scenes": [
+        {
+          "narration": "To understand how this happened, we have to go back to the end of the *First World War*.",
+          "image": "Australian soldiers in First World War uniforms walking down a ship's gangplank at a harbour while families cheer and wave"
+        },
+        {
+          "narration": "Thousands of Australian veterans came home, and the government had a plan for them: *farming*.",
+          "image": "a government official in a suit handing a shovel to a confused veteran, an empty dusty field behind them"
+        },
+        {
+          "narration": "Many were given land in Western Australia, a lot of it hard, dry country on the edge of the wheatbelt.",
+          "image": "farmers standing on a vast flat red-dirt landscape with scrubby bushes, a tiny tin shack in the distance, blazing sun"
+        },
+        {
+          "narration": "They cleared it, planted *wheat*, and for a while, it kind of worked.",
+          "image": "farmers proudly standing in front of a small green wheat field, one wiping his brow, chickens pecking nearby"
+        },
+        {
+          "narration": "Many of these men had survived Gallipoli or the Western Front. Compared to that, a quiet life growing wheat sounded *perfect*.",
+          "image": "farmers relaxing on a farmhouse porch at sunset, one using an old army helmet as a flowerpot"
+        },
+        {
+          "narration": "Then 1929 happened. The *Great Depression* hit, and wheat prices collapsed.",
+          "image": "farmers watching in horror as a giant red arrow on a chart crashes down through the floor of their shack"
+        },
+        {
+          "narration": "The government urged them to grow even more wheat and promised subsidies. Those subsidies *never really came*.",
+          "image": "a politician on a stage giving a big thumbs up to cheering farmers while secretly turning out his empty pockets behind his back"
+        },
+        {
+          "narration": "So by 1932, these farmers were broke, exhausted, and staring at fields of wheat they could barely sell.",
+          "image": "farmers sitting on upturned buckets at dusk, chins in hands, staring at their wheat field with tired faces"
+        },
+        {
+          "narration": "And that is exactly when the *emus* showed up.",
+          "image": "farmers looking up in horror as the silhouettes of hundreds of emus appear on the horizon against an orange sky"
+        }
+      ]
+    },
+    {
+      "title": "Twenty Thousand Emus",
+      "scenes": [
+        {
+          "narration": "Emus breed inland, and after breeding season they head toward the coast looking for food and *water*.",
+          "image": "a long line of emus trekking across a hot desert, one fanning itself with a eucalyptus leaf"
+        },
+        {
+          "narration": "The farmers had just cleared land and added a steady water supply. To an emu, it looked like a *five-star resort*.",
+          "image": "emus lounging in a farm water trough like a swimming pool, one wearing tiny sunglasses"
+        },
+        {
+          "narration": "Somewhere around *twenty thousand* emus moved into the area around Campion.",
+          "image": "an aerial view of a wheat farm completely covered in emus, the farmhouse a tiny island in a sea of birds"
+        },
+        {
+          "narration": "And emus are not small. They stand up to about *two metres* tall, and they can kick hard enough to seriously hurt you.",
+          "image": "a nervous farmer standing next to an emu that towers over him, the emu looking down at him unimpressed"
+        },
+        {
+          "narration": "They ate the crops. They trampled what they didn't eat. And they smashed through fences, letting *rabbits* pour in behind them.",
+          "image": "emus crashing through a wire fence while a neat line of rabbits files in politely behind them"
+        },
+        {
+          "narration": "Imagine losing your harvest not to drought or locusts, but to a bird that looks like a feather duster with *legs*.",
+          "image": "a farmer kneeling dramatically in a flattened wheat field shaking his fist at the sky while an emu nibbles his last stalk"
+        },
+        {
+          "narration": "The farmers were former soldiers. So they did what soldiers do. They called the *army*.",
+          "image": "farmers in their best suits standing nervously in a grand government office, hats in their hands"
+        }
+      ]
+    },
+    {
+      "title": "Operation Emu",
+      "scenes": [
+        {
+          "narration": "A delegation went to the Minister of Defence, Sir George *Pearce*. And Pearce said yes.",
+          "image": "Pearce sitting behind a huge wooden desk, leaning forward with a delighted grin as the farmers explain"
+        },
+        {
+          "narration": "The idea was simple. The soldiers would get some *target practice*, and the farmers would get their wheat back.",
+          "image": "Pearce bringing down a giant rubber stamp on a document, an emu-shaped target pinned to the wall behind him"
+        },
+        {
+          "narration": "The man put in charge was Major *Meredith* of the Royal Australian Artillery.",
+          "image": "Meredith saluting in front of a flagpole, chest puffed out, binoculars around his neck"
+        },
+        {
+          "narration": "He got two soldiers, two *Lewis guns*, and ten thousand rounds of ammunition.",
+          "image": "Meredith and two soldiers loading two Lewis machine guns and crates of ammunition onto an old 1930s army truck"
+        },
+        {
+          "narration": "A newsreel cameraman came along too, because this was going to make *great footage*.",
+          "image": "a 1930s newsreel cameraman cranking a big film camera on a tripod, grinning, while Meredith poses heroically"
+        },
+        {
+          "narration": "The farmers had to provide food and housing, and pay for the ammunition. War, it turns out, is *expensive*.",
+          "image": "a farmer handing a few coins to Meredith with a pained face while two soldiers eat at his kitchen table"
+        },
+        {
+          "narration": "Rain delayed the start, but on the *second of November*, 1932, the war began.",
+          "image": "Meredith and his soldiers setting up a machine gun on a hill under a clearing sky, wheat fields below"
+        }
+      ]
+    },
+    {
+      "title": "The Emus Fight Back",
+      "scenes": [
+        {
+          "narration": "On day one, about fifty emus were spotted. Out of range. The farmers tried herding them closer, but the emus split into *small groups* and ran.",
+          "image": "farmers flapping their arms to herd emus toward a machine gun nest while the emus scatter in every direction"
+        },
+        {
+          "narration": "Two days later came the big chance. Around *a thousand* emus walked toward a dam, straight into an ambush.",
+          "image": "Meredith crouching behind a machine gun hidden in bushes near a farm dam, a huge crowd of emus walking toward it unaware"
+        },
+        {
+          "narration": "The soldiers waited until the birds were close, and opened fire. They killed about a dozen. And then the gun *jammed*.",
+          "image": "a soldier staring in disbelief at a smoking jammed machine gun while emus sprint away in the background"
+        },
+        {
+          "narration": "By the time it was fixed, the emus were *gone*.",
+          "image": "an empty dusty field with a single feather floating down in front of Meredith's disappointed face"
+        },
+        {
+          "narration": "Over the next few days, the emus seemed to get smarter. Meredith noted that each group appeared to have a *leader*, keeping watch while the others ate.",
+          "image": "a tall dark emu standing on a rock like a lookout with a stern face while other emus feed below"
+        },
+        {
+          "narration": "So Meredith got creative. He mounted a gun on a *truck* to chase them down.",
+          "image": "Meredith pointing forward heroically from the back of a bouncing 1930s truck with a machine gun mounted on it"
+        },
+        {
+          "narration": "Problem one: emus can sprint at around *fifty kilometres an hour*, and the truck could not keep up.",
+          "image": "an emu running easily beside the speeding truck, looking back at it with a bored expression"
+        },
+        {
+          "narration": "Problem two: the ground was so rough the gunner couldn't aim. The whole idea was *abandoned*.",
+          "image": "a soldier bouncing wildly in the truck bed clinging to the gun, his hat flying off"
+        },
+        {
+          "narration": "Meredith was impressed. He reportedly said that birds who could take bullets like these could face machine guns with the *invulnerability of tanks*.",
+          "image": "Meredith writing in a notebook while gazing at an emu with deep respect, the emu striking a heroic pose"
+        }
+      ]
+    },
+    {
+      "title": "Round Two",
+      "scenes": [
+        {
+          "narration": "Back home, the newspapers had a field day, and the operation was raised in *Parliament*.",
+          "image": "politicians in a 1930s parliament chamber laughing while one holds up a drawing of an emu"
+        },
+        {
+          "narration": "On the eighth of November, after about six days and two and a half thousand rounds, the army *withdrew*.",
+          "image": "Meredith and his soldiers driving away in the truck, glancing back sheepishly while emus watch from a hill"
+        },
+        {
+          "narration": "How many emus had they actually killed? Reports ranged from about *fifty* to a couple of hundred, depending on who you asked.",
+          "image": "Meredith and a farmer arguing over a chalkboard of tally marks while an emu casually wipes it clean with its tail feathers"
+        },
+        {
+          "narration": "But the emus kept eating, and the farmers kept asking for help. So the army came *back*.",
+          "image": "Meredith arriving again in the truck at a farm gate, looking determined and slightly embarrassed"
+        },
+        {
+          "narration": "This time it went better, sort of. By December, Meredith reported *nine hundred and eighty-six* kills, using nine thousand eight hundred and sixty rounds.",
+          "image": "Meredith at a field desk counting on an abacus, a mountain of empty ammunition crates behind him"
+        },
+        {
+          "narration": "That is *ten bullets* for every bird. On the tenth of December, he was recalled for good.",
+          "image": "Meredith packing his binoculars into a suitcase while an emu peeks in through the tent flap"
+        },
+        {
+          "narration": "Meredith also claimed about two and a half thousand wounded birds died later. That number was never *verified*.",
+          "image": "Meredith proudly unrolling a very long scroll while a sceptical farmer squints at it through a magnifying glass"
+        }
+      ]
+    },
+    {
+      "title": "Who Won?",
+      "scenes": [
+        {
+          "narration": "So who won? The emus, mostly. The farmers asked for military help again in later years, and were *refused*.",
+          "image": "a crestfallen farmer holding a rejection letter while an emu reads over his shoulder"
+        },
+        {
+          "narration": "What worked instead was boring: a *bounty* system, where farmers were paid for every emu, and later, better fences.",
+          "image": "farmers building a very tall sturdy fence while emus watch from the other side, unimpressed"
+        },
+        {
+          "narration": "In 1934 alone, farmers claimed over *fifty-seven thousand* emu bounties in just six months.",
+          "image": "a long queue of farmers at a government office window, each holding a sack, the clerk looking exhausted"
+        },
+        {
+          "narration": "Today, the Great Emu War is remembered as the time a modern army took on a flock of birds, and the *birds* walked away.",
+          "image": "emus standing heroically on a hill at sunset with medals around their necks"
+        },
+        {
+          "narration": "Think that is the strangest war in history? Wait until you hear about the one that lasted *three hundred and thirty-five years*.",
+          "image": "an old map spread on a wooden table with one tiny island glowing mysteriously beside a candle"
+        }
+      ]
+    }
+  ],
+  "description": "In 1932, the Australian army sent machine guns after twenty thousand emus in Western Australia. This is the true story of the Great Emu War, and how the birds came out on top.",
   "hashtags": [
     "history",
     "emuwar",
     "australia",
-    "funfacts",
-    "shorts"
-  ]
+    "animatedhistory",
+    "funnyhistory"
+  ],
+  "thumbnail_text": "THE BIRDS WON",
+  "thumbnail_image": "Meredith in his uniform crying beside a broken machine gun while a giant smug emu towers behind him wearing his officer's hat"
 }

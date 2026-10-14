@@ -221,8 +221,7 @@ __marimo__/
 
 # Content Pilot
 output/
-assets/footage/*
-!assets/footage/README.md
+assets/music/*.zip
 
 # Local agent/editor tooling
 .DS_Store

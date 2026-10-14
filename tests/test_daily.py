@@ -10,17 +10,23 @@ from content_pilot.agent import tools
 from content_pilot.agent.harness import DailyResult
 from content_pilot.library import Library
 
-EXAMPLE = Path(__file__).resolve().parents[1] / "studio/skills/writing/shorts-script/example.json"
+EXAMPLE = Path(__file__).resolve().parents[1] / "studio/skills/writing/history-script/example.json"
 
 
-def fake_make_video(topic, out_dir, settings, script_path, seed):
+RENDER_META = {"duration": 301.5, "chapters": "0:00 Cold Open\n0:20 Farmers", "scenes": 47,
+               "music": None, "placeholder_art": False}
+
+
+def fake_make_video(topic, out_dir, settings, script_path, seed, placeholders=None, meta=RENDER_META):
     work = out_dir / "work_x"
     work.mkdir(parents=True)
     (work / "voice.mp3").write_bytes(b"mp3")
     (work / "captions.json").write_text("[]")
+    (work / "scenes.json").write_text("[]")
+    (work / "thumbnail.jpg").write_bytes(b"jpg")
     video = out_dir / "x.mp4"
     video.write_bytes(b"mp4")
-    video.with_suffix(".json").write_text(json.dumps({"duration": 41.2, "background": "clip.mp4"}))
+    video.with_suffix(".json").write_text(json.dumps(meta))
     return video
 
 
@@ -51,14 +57,18 @@ class DailyRunTest(unittest.TestCase):
         shutil.rmtree(self.tmp)
 
     def test_archives_every_artifact_and_uploads(self):
-        up = {"id": "abc123", "url": "https://youtube.com/shorts/abc123", "privacy": "public"}
+        up = {"id": "abc123", "url": "https://www.youtube.com/watch?v=abc123", "privacy": "public", "thumbnail": "set"}
         with mock.patch("content_pilot.youtube.upload.upload", return_value=up) as yt:
             entry = daily.run(upload=True)
-        self.assertEqual(yt.call_args.args[1], "Australia Declared War on Birds. The Birds Won.")
+        self.assertEqual(yt.call_args.args[1], "Australia Declared War on Emus. The Emus Won.")
+        self.assertEqual(yt.call_args.args[4], RENDER_META["chapters"])
+        self.assertEqual(yt.call_args.args[5], entry.path / "thumbnail.jpg")
         files = sorted(p.name for p in entry.path.iterdir())
-        self.assertEqual(files, ["captions.json", "metadata.json", "research.md", "script.json", "video.mp4", "voice.mp3"])
+        self.assertEqual(files, ["captions.json", "metadata.json", "research.md", "scenes.json", "script.json",
+                                 "thumbnail.jpg", "video.mp4", "voice.mp3"])
         meta = entry.metadata
-        self.assertEqual((meta["status"], meta["youtube_id"], meta["duration"]), ("uploaded", "abc123", 41.2))
+        self.assertEqual((meta["status"], meta["youtube_id"], meta["duration"]), ("uploaded", "abc123", 301.5))
+        self.assertEqual((meta["scenes"], meta["thumbnail"]), (47, "set"))
         self.assertIsInstance(meta["hook_score"], int)
         index = [json.loads(l) for l in (self.tmp / "library/index.jsonl").read_text().splitlines()]
         self.assertEqual(index[-1]["youtube_url"], up["url"])
@@ -72,6 +82,15 @@ class DailyRunTest(unittest.TestCase):
         self.assertIn("quota", entry.metadata["error"])
         self.assertTrue((entry.path / "video.mp4").exists())
 
+    def test_placeholder_art_is_never_published(self):
+        fake = lambda *a, **k: fake_make_video(*a, **k, meta={**RENDER_META, "placeholder_art": True})
+        with mock.patch("content_pilot.pipeline.make_video", fake), \
+                mock.patch("content_pilot.youtube.upload.upload") as yt:
+            with self.assertRaises(RuntimeError):
+                daily.run(upload=True)
+        yt.assert_not_called()
+        self.assertEqual(Library(self.tmp / "library").entries()[-1].metadata["status"], "failed")
+
     def test_no_upload_stops_after_render(self):
         entry = daily.run(upload=False)
         self.assertEqual(entry.metadata["status"], "rendered")
@@ -79,13 +98,15 @@ class DailyRunTest(unittest.TestCase):
 
 
 class UploadBodyTest(unittest.TestCase):
-    def test_shorts_metadata(self):
+    def test_long_form_metadata(self):
         from content_pilot.youtube.upload import build_body
 
-        body = build_body("Why you freeze when you speak", "One fix.", ["confidence", "#psychology"])
-        self.assertEqual(body["snippet"]["title"], "Why you freeze when you speak #Shorts")
-        self.assertEqual(body["snippet"]["tags"], ["confidence", "psychology"])
-        self.assertIn("#confidence #psychology #Shorts", body["snippet"]["description"])
+        body = build_body("The Emus Won", "A true story.", ["history", "#emuwar"], "0:00 Cold Open\n0:20 Farmers")
+        self.assertEqual(body["snippet"]["title"], "The Emus Won")
+        self.assertEqual(body["snippet"]["tags"], ["history", "emuwar"])
+        self.assertEqual(body["snippet"]["description"],
+                         "A true story.\n\n0:00 Cold Open\n0:20 Farmers\n\n#history #emuwar")
+        self.assertNotIn("Shorts", body["snippet"]["description"])
         self.assertEqual(body["status"]["privacyStatus"], "public")
         self.assertFalse(body["status"]["selfDeclaredMadeForKids"])
 

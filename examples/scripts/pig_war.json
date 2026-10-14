@@ -1,0 +1,227 @@
+{
+  "title": "The War Started by a Hungry Pig",
+  "characters": [
+    {
+      "name": "Lyman Cutlar",
+      "look": "Lanky American frontiersman with a wild brown beard, red flannel shirt, brown suspenders, and an old musket."
+    },
+    {
+      "name": "Charles Griffin",
+      "look": "Pompous British rancher with tidy mutton chops, a tweed three-piece suit, top hat, monocle, and a leather ledger."
+    },
+    {
+      "name": "General William Harney",
+      "look": "Bulky, angry US general with white sideburns, a blue officer coat covered in gold braid, and an oversized cavalry saber."
+    },
+    {
+      "name": "Captain George Pickett",
+      "look": "Dandy US captain with long ringlet curls, a pencil mustache, flamboyant blue uniform, and a cocky swagger."
+    },
+    {
+      "name": "Admiral Robert Baynes",
+      "look": "Exhausted British naval admiral with a bicorne hat, grand gold epaulets, white gloves, and a steaming teacup."
+    }
+  ],
+  "chapters": [
+    {
+      "title": "The Shot Heard Round the Trough",
+      "scenes": [
+        {
+          "narration": "In 1859, the United States and the British Empire nearly plunged the globe into total war over one *dead potato-eating pig*.",
+          "image": "Lyman Cutlar staring down in wide-eyed shock with a smoking musket at a large black boar sprawled in a potato patch."
+        },
+        {
+          "narration": "That unfortunate hog belonged to the British Hudson's Bay Company, and the potato patch belonged to Lyman Cutlar, an *American squatter*.",
+          "image": "Lyman Cutlar pointing defensively at his ruined vegetable garden while Charles Griffin rushes toward him waving a leather ledger in fury."
+        },
+        {
+          "narration": "Cutlar woke up one morning, discovered the massive black Berkshire boar ravaging his prized tubers, and completely *lost his temper*.",
+          "image": "Lyman Cutlar looking out his cabin window with steam blowing out of his ears as a fat pig happily crunches raw potatoes."
+        },
+        {
+          "narration": "Instead of chasing it off, Cutlar grabbed his musket, took deliberate aim, and turned the trespasser into *immediate bacon*.",
+          "image": "Lyman Cutlar aiming his long musket through the window frame, cartoon muzzle smoke bursting outward."
+        },
+        {
+          "narration": "Stricken with remorse, Cutlar marched over to the pig's keeper, Charles Griffin, and sheepishly offered ten dollars in *cash restitution*.",
+          "image": "Lyman Cutlar sheepishly holding out a tiny crumpled wad of dollar bills toward Charles Griffin."
+        },
+        {
+          "narration": "Griffin scoffed with immense indignity and demanded a hundred dollars, prompting Cutlar to shout that the pig was *eating his potatoes*.",
+          "image": "Charles Griffin turning his nose to the sky with arms crossed while Lyman Cutlar gestures wildly toward the dirt."
+        },
+        {
+          "narration": "Griffin famously snapped back that it was up to Cutlar to keep his precious potatoes out of *the pig*.",
+          "image": "Charles Griffin leaning nose-to-nose with Lyman Cutlar, tapping him condescendingly on the chest."
+        }
+      ]
+    },
+    {
+      "title": "A Bad Map and Worse Borders",
+      "scenes": [
+        {
+          "narration": "How on earth did an argument over backyard root vegetables almost spark a catastrophic *international bloodbath*?",
+          "image": "A spinning cartoon globe with a spotlight focusing on a tiny dot of land between Vancouver Island and Washington Territory."
+        },
+        {
+          "narration": "Thirteen years earlier, Britain and the United States signed the Oregon Treaty to partition the Pacific Northwest along the *forty-ninth parallel*.",
+          "image": "Two stiff diplomats in nineteenth-century formal coats using a giant wooden ruler to draw a red line across a map."
+        },
+        {
+          "narration": "The agreement dictated that the border would follow the parallel straight to the middle of the channel separating *Vancouver Island*.",
+          "image": "The diplomats staring intently at a maritime chart of San Juan Island, looking completely baffled by the multiple waterways."
+        },
+        {
+          "narration": "There was just one glaring, unforgivable mistake in the treaty: the diplomats forgot to specify *which channel*.",
+          "image": "Two giant cartoon hands from opposite sides of the map pointing at two different sea straits surrounding the island."
+        },
+        {
+          "narration": "The British argued the border ran through Rosario Strait to the east, awarding them beautiful San Juan Island for *sheep farming*.",
+          "image": "Charles Griffin standing proudly on a lush hillside surrounded by dozens of round fluffy sheep."
+        },
+        {
+          "narration": "The Americans swore the line ran down Haro Strait to the west, meaning the entire island belonged to *Uncle Sam*.",
+          "image": "Lyman Cutlar firmly planting a wooden American flag stake right into the middle of a sheep grazing meadow."
+        },
+        {
+          "narration": "With zero consensus, both nations quietly flooded the disputed paradise with settlers and hoped nobody did anything *catastrophically dumb*.",
+          "image": "American settlers in flannel and British sheep herders in tweed eyeing each other suspiciously across a rickety fence."
+        }
+      ]
+    },
+    {
+      "title": "Enter the Warmongers",
+      "scenes": [
+        {
+          "narration": "Did the British authorities gently fine the trigger-happy farmer, or did they immediately threaten him with *unforgiving prison irons*?",
+          "image": "Charles Griffin standing next to a stern British constable holding a pair of heavy iron shackles toward Lyman Cutlar."
+        },
+        {
+          "narration": "British magistrates warned Cutlar he could be arrested and tried under royal law, which sent the island's Americans into *sheer panic*.",
+          "image": "Lyman Cutlar running in terror toward a small wooden shack where several American frontiersmen look alarmed."
+        },
+        {
+          "narration": "Cutlar and his panicked neighbors fired off an urgent petition to General William Harney, the fiery commander of the *Department of Oregon*.",
+          "image": "A frightened messenger thrusting a parchment paper into the hands of General William Harney."
+        },
+        {
+          "narration": "Harney was an abrasive expansionist who despised the British and was privately salivating for any excuse to start a *patriotic brawl*.",
+          "image": "General William Harney grinning maliciously while menacingly sharpening his heavy saber on a whetstone."
+        },
+        {
+          "narration": "Without waiting for orders from Washington, Harney rushed sixty-six armed infantrymen to the island under Captain George Pickett, the future *Confederate general*.",
+          "image": "Captain George Pickett posing theatrically on the bow of a wooden steamship with soldiers packed behind him."
+        },
+        {
+          "narration": "Pickett strutted ashore on San Juan Island, hoisted the Stars and Stripes, and declared the rock under *exclusive American control*.",
+          "image": "Captain George Pickett proudly hammering a tall American flag into the grass while Charles Griffin glares from behind a barn."
+        },
+        {
+          "narration": "Pickett warned that any British attempt to disembark would be answered with gunsmoke, promising to make a *bloody stand*.",
+          "image": "Captain George Pickett standing behind a low earthen trench, dramatically brandishing his sword at the open sea."
+        }
+      ]
+    },
+    {
+      "title": "The Gunboat Standoff",
+      "scenes": [
+        {
+          "narration": "What does a royal governor do when a foreign army illegally occupies territory he considers *His Majesty's soil*?",
+          "image": "James Douglas, the royal governor of Vancouver Island, stomping his boots and shaking his fists in wild anger on a harbor dock."
+        },
+        {
+          "narration": "James Douglas, the governor of Vancouver Island, dispatched three massive Royal Navy warships to anchor directly in front of *Pickett's camp*.",
+          "image": "Three massive British three-masted wooden warships dropping heavy anchors in the bay, bristling with black cannon ports."
+        },
+        {
+          "narration": "Pickett, staring down dozens of heavy naval cannons with sixty-six riflemen, chose not to retreat, but to *dig in deeper*.",
+          "image": "Captain George Pickett frantically ordering small American soldiers with shovels to dig dirt trenches on top of a hill."
+        },
+        {
+          "narration": "Pickett boasted that his men would fight to the last breath, even as more towering British *warships arrived*.",
+          "image": "Captain George Pickett peering through a brass telescope, sweating as more British masts appear over the ocean horizon."
+        },
+        {
+          "narration": "Within weeks, the British naval force exploded to five formidable warships carrying over two thousand sailors and seventy-two *heavy guns*.",
+          "image": "A fleet of five grand British warships completely surrounding the island shoreline with massive cannons aimed inland."
+        },
+        {
+          "narration": "American reinforcements sneaked past the blockade under heavy coastal fog, boosting Pickett's garrison to nearly five hundred men and *fourteen cannons*.",
+          "image": "Rowboats full of blue-coated American soldiers silently hauling cannons onto the beach through thick white cartoon mist."
+        },
+        {
+          "narration": "For agonizing weeks, hundreds of men stood at hair-trigger battle stations, waiting for one nervous recruit to *pull a trigger*.",
+          "image": "A British royal marine with a sweating hand hovering inches above a smoking cannon fuse, eyes wide with tension."
+        }
+      ]
+    },
+    {
+      "title": "Sanity from the Sea",
+      "scenes": [
+        {
+          "narration": "With enough gunpowder on the island to vaporize the coastline, why did nobody actually fire the *catastrophic opening salvo*?",
+          "image": "Admiral Robert Baynes standing on the deck of his flagship with arms crossed, calmly sipping tea amid armed marines."
+        },
+        {
+          "narration": "Governor Douglas continuously pushed the British fleet commander, Admiral Robert Baynes, to land the marines and *blast the Americans*.",
+          "image": "Governor Douglas yelling directly into the ear of Admiral Robert Baynes, pointing his cane violently toward the island."
+        },
+        {
+          "narration": "But Admiral Baynes possessed the one trait missing from the crisis: common sense, refusing to start a world war over *a pig*.",
+          "image": "Admiral Robert Baynes pushing Douglas away with one finger while casually inspecting his biscuit."
+        },
+        {
+          "narration": "When the news finally reached Washington D.C., President James Buchanan was horrified to discover a general was *risking war with Britain*.",
+          "image": "President James Buchanan dropping his fountain pen and clutching his head in horror at a desk piled with urgent dispatches."
+        },
+        {
+          "narration": "Buchanan immediately dispatched General Winfield Scott, the seventy-three-year-old hero of the Mexican War, to travel cross-continent and *quell the madness*.",
+          "image": "General Winfield Scott, immense and elderly in a gold-braided uniform, boarding a steamship while leaning heavily on a cane."
+        },
+        {
+          "narration": "Scott negotiated smoothly with British officials, establishing a peaceful joint military occupation and reducing both garrisons to just *one hundred men*.",
+          "image": "General Winfield Scott shaking hands with a polite British officer over a small wooden table pitched in the forest."
+        }
+      ]
+    },
+    {
+      "title": "The Kaiser's Verdict",
+      "scenes": [
+        {
+          "narration": "So how did this bizarre standoff finally resolve itself without a single drop of human *blood being spilled*?",
+          "image": "An American soldier and a British marine sitting on wooden crates playing cards together peacefully between their camps."
+        },
+        {
+          "narration": "For twelve cozy years, British and American garrisons lived on opposite ends of the island, regularly attending each other's *holiday parties*.",
+          "image": "American and British soldiers in full uniforms clinking cider mugs and sharing roasted turkey around an outdoor table."
+        },
+        {
+          "narration": "By 1871, both nations finally referred the boundary dispute to an independent arbitrator, Germany's Kaiser *Wilhelm the First*.",
+          "image": "Kaiser Wilhelm I wearing a spiked Pickelhaube helmet, squinting through a large magnifying glass at a map of North America."
+        },
+        {
+          "narration": "The Kaiser's international commission evaluated the maps and officially decreed that Haro Strait was the proper border, awarding San Juan to *America*.",
+          "image": "Kaiser Wilhelm I firmly pressing a heavy wax stamp right over San Juan Island on the treaty desk."
+        },
+        {
+          "narration": "In 1872, the British garrison politely dismantled their camp, shook hands with the Americans, and sailed away for *Vancouver Island*.",
+          "image": "British soldiers boarding their rowboats while happily waving their caps to the American soldiers standing on the beach."
+        },
+        {
+          "narration": "The entire Pig War resulted in zero human casualties and one dead hog, leaving us to wonder what other *insane conflicts* history hid.",
+          "image": "A small stone grave marker in a green potato field with a cartoon pig wearing angel wings floating happily above it."
+        }
+      ]
+    }
+  ],
+  "description": "In 1859, the United States and Great Britain came inches away from a devastating global war. The cause? An American squatter shot an English pig in a potato patch.",
+  "hashtags": [
+    "PigWar",
+    "History",
+    "WeirdHistory",
+    "SanJuanIsland",
+    "USHistory"
+  ],
+  "thumbnail_text": "OVER ONE PIG?!",
+  "thumbnail_image": "A giant furious black pig chewing on a potato while five enormous British warships and an army of American soldiers face off in the background."
+}

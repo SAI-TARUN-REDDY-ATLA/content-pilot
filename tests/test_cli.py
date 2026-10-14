@@ -26,20 +26,24 @@ class CliTest(unittest.TestCase):
 
     def test_topic_skips_the_agents(self):
         with mock.patch("content_pilot.pipeline.make_video") as make, mock.patch("content_pilot.daily.run") as run:
-            run_cli("--topic", "the spotlight effect")
-        self.assertEqual(make.call_args.args[0], "the spotlight effect")
+            run_cli("--topic", "the dancing plague of 1518")
+        self.assertEqual(make.call_args.args[0], "the dancing plague of 1518")
         run.assert_not_called()
 
 
 class WriteScriptTest(unittest.TestCase):
     def test_uses_configured_model_with_structured_output(self):
-        fake = script_mod.Script(title="t", hook="h", lines=["l"], loop_line="x", description="d", hashtags=["a"])
+        fake = script_mod.Script(title="t", chapters=[], description="d", hashtags=["a"], thumbnail_text="x",
+                                 thumbnail_image="y")
         with mock.patch("langchain.chat_models.init_chat_model") as init:
             init.return_value.with_structured_output.return_value.invoke.return_value = fake
-            out = script_mod.write_script("focus", "google_genai:gemini-3.7-flash")
+            out = script_mod.write_script("the pig war", "google_genai:gemini-3.7-flash", minutes=5)
         init.assert_called_once_with("google_genai:gemini-3.7-flash")
         init.return_value.with_structured_output.assert_called_once_with(script_mod.Script)
         self.assertIs(out, fake)
+        system = init.return_value.with_structured_output.return_value.invoke.call_args.args[0][0]["content"]
+        self.assertIn("5-minute", system)
+        self.assertIn("704-896 words", system)
 
 
 if __name__ == "__main__":

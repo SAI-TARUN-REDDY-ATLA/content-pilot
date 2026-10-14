@@ -4,22 +4,25 @@ The producer loads this on every run, including the unattended nightly one. Edit
 the producer edit it) to record what the channel has learned.
 
 ## Channel
-- Format: 30-45 second vertical Shorts, fast pacing, word-by-word pop captions, one video a day.
-- Niche: personality development. Confidence, discipline, habits, communication, social skills,
-  focus, emotional control, how people actually perceive you.
-- Audience: 18-30, scrolling fast, wants one thing they can use today. The first two seconds
-  decide everything.
-- Every Short delivers ONE usable idea: the hook names the problem or the surprising claim, the
-  body explains why it happens, the payoff is a concrete thing to do or notice.
+- Niche: cartoon history. Real history told as a funny, story-driven animated explainer: wars,
+  empires, inventors, disasters, scandals, and especially absurd true stories most people have
+  never heard (the Great Emu War, the Dancing Plague of 1518, the Pig War).
+- Format: horizontal 16:9 videos of about 5 minutes (CONTENT_PILOT_MINUTES), posted every two
+  days. A witty, slightly sarcastic narrator over flat cartoon illustrations, one per scene, with
+  slow zooms and pans and subtitles. Videos will get longer as the channel grows.
+- Audience: 16-35, curious, watches on a phone or TV, came for a story not a lecture. The first
+  30 seconds decide whether they stay.
+- Every video is ONE story with a hook, real characters, escalation and a payoff.
 
 ## Preferences
-- Back claims with real psychology or behavioural research and name it plainly ("a Stanford
-  study", "researchers call this the spotlight effect"). Never invent numbers, studies or quotes.
-- Practical over preachy. No hustle-culture shaming, no "alpha/sigma" framing, no get-rich angles.
-- Not therapy. No advice on diagnosing or treating anxiety, depression or other conditions, and no
-  medical claims. If a topic needs a professional, pick a different topic.
-- Titles are curiosity gaps, not spoilers.
-- Rotate sub-topics; don't run the same theme (e.g. confidence) more than twice in a week.
+- Facts first. Real dates, names and numbers from reputable sources; never invented quotes,
+  numbers or events. Say "reportedly" when sources disagree; call legends legends.
+- Funny, not mean. Laugh at the absurdity and the powerful, never at victims. No jokes about
+  genocide, atrocities or real suffering; pick a different story if the topic is mainly tragic.
+- Non-graphic. Violence is implied or slapstick in the art, never gore.
+- No modern politics, no culture-war framing, no religion-bashing.
+- Titles are curiosity gaps, not spoilers. Thumbnails: one face, one big emotion, four words max.
+- Rotate eras and regions; no more than two videos in a row from the same war or century.
 
 ## Lessons learned
 <!-- The producer appends one line here when retention numbers or a person's feedback teach
