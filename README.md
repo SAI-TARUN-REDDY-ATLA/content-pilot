@@ -110,6 +110,12 @@ library/
 
 Run the same thing locally: `content-pilot` (add `--upload` to publish).
 
+Every run, pass or fail, also writes `status/last-run.json` and appends to `status/runs.jsonl`
+(step outcomes and which secrets are set, never their values). A Claude cloud routine reads them
+every morning at 08:00 IST and follows [MAINTAINER.md](MAINTAINER.md): it reports how last night
+went and how recent videos are doing, and opens a `maintain/...` pull request when something in
+the code needs fixing.
+
 ### One-time setup
 
 1. **Google Cloud**: create a project, enable *YouTube Data API v3* and *YouTube Analytics
