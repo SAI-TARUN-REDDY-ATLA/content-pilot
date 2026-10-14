@@ -43,7 +43,7 @@ class WriteScriptTest(unittest.TestCase):
         self.assertIs(out, fake)
         system = init.return_value.with_structured_output.return_value.invoke.call_args.args[0][0]["content"]
         self.assertIn("5-minute", system)
-        self.assertIn("748-952 words", system)
+        self.assertIn("704-896 words", system)
 
 
 if __name__ == "__main__":

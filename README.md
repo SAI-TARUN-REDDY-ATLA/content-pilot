@@ -10,7 +10,7 @@ everything.
 1. **Script**: Gemini (`gemini-3.7-flash` by default) writes the story as chapters of scenes:
    each scene is a few narrated sentences plus a description of the cartoon frame shown during
    them, with recurring characters given a fixed look. The length follows `CONTENT_PILOT_MINUTES`
-   (default 5; about 170 spoken words a minute).
+   (default 5; about 160 spoken words a minute).
 2. **Art**: a Gemini image model (`gemini-2.5-flash-image` by default) draws every scene, and the
    thumbnail, in one flat cartoon style (`CONTENT_PILOT_ART_STYLE`). Image models have no free
    tier: the key's Google Cloud project needs billing. Roughly 45-50 images per 5-minute video.

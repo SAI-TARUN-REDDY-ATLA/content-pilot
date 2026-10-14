@@ -10,7 +10,7 @@ from pathlib import Path
 
 from pydantic import BaseModel, Field
 
-WORDS_PER_MINUTE = 170  # measured: en-US-AndrewNeural at +0% reads ~173
+WORDS_PER_MINUTE = 160  # measured with en-US-AndrewNeural at +0%: 148-173 depending on sentence length
 
 SYSTEM_PROMPT = """You write scripts for {minutes}-minute animated history videos on YouTube, told \
 by a witty, slightly sarcastic narrator over cartoon illustrations (the Oversimplified / Sam O'Nella \
