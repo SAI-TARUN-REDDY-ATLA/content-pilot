@@ -1,9 +1,10 @@
-name: Daily Short
+name: Publish Video
 
 on:
   schedule:
-    # 18:30 UTC = 12:00 am IST. GitHub may start scheduled runs a few minutes late.
-    - cron: "30 18 * * *"
+    # Every other day at 18:30 UTC = 12:00 am IST (odd days of the month, so the 31st and the 1st
+    # run back to back). GitHub may start scheduled runs a few minutes late.
+    - cron: "30 18 */2 * *"
   workflow_dispatch:
     inputs:
       upload:
@@ -15,13 +16,13 @@ permissions:
   contents: write # commit the archive and publish the video release
 
 concurrency:
-  group: daily-short
+  group: publish-video
   cancel-in-progress: false
 
 jobs:
   make-short:
     runs-on: ubuntu-24.04 # pinned: ubuntu-latest moves to Ubuntu 26 on 2026-10-19
-    timeout-minutes: 60
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v5
         with:
@@ -39,20 +40,20 @@ jobs:
         id: install
         run: pip install -e '.[agent,youtube]'
 
-      - name: Fetch background footage
-        id: footage
+      - name: Fetch background music
+        id: music
         env:
-          FOOTAGE_URL: ${{ secrets.FOOTAGE_URL }}
+          MUSIC_URL: ${{ secrets.MUSIC_URL }}
         run: |
-          if [ -n "$FOOTAGE_URL" ]; then
-            curl -fsSL "$FOOTAGE_URL" -o footage.zip
-            unzip -oq footage.zip -d assets/footage
-            ls assets/footage
+          if [ -n "$MUSIC_URL" ]; then
+            curl -fsSL "$MUSIC_URL" -o music.zip
+            unzip -oqj music.zip -d assets/music
+            ls assets/music
           else
-            echo "::warning::FOOTAGE_URL not set; rendering over the placeholder gradient"
+            echo "MUSIC_URL not set; using tracks committed in assets/music/ if any"
           fi
 
-      - name: Make, upload and archive today's Short
+      - name: Make, upload and archive the video
         id: daily
         env:
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
@@ -61,6 +62,8 @@ jobs:
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
           CONTENT_PILOT_MODEL: ${{ vars.CONTENT_PILOT_MODEL || 'google_genai:gemini-3.7-flash' }}
           CONTENT_PILOT_PRIVACY: ${{ vars.CONTENT_PILOT_PRIVACY || 'public' }}
+          CONTENT_PILOT_MINUTES: ${{ vars.CONTENT_PILOT_MINUTES || '5' }}
+          CONTENT_PILOT_IMAGE_MODEL: ${{ vars.CONTENT_PILOT_IMAGE_MODEL || 'gemini-2.5-flash-image' }}
         run: content-pilot-daily ${{ inputs.upload == false && '--no-upload' || '' }}
 
       - name: Keep the run's files as a workflow artifact
@@ -81,7 +84,7 @@ jobs:
           dir="library/$ENTRY"
           jq -r '"\(.title)\n\n\(.description)\n\nTopic: \(.topic)\nYouTube: \(.youtube_url // "not uploaded")\nHook score: \(.hook_score)\nWhy: \(.why)"' \
             "$dir/metadata.json" > notes.md
-          gh release create "video-$ENTRY" "$dir/video.mp4" $(ls "$dir"/voice.mp3 2>/dev/null) \
+          gh release create "video-$ENTRY" "$dir/video.mp4" $(ls "$dir"/voice.mp3 "$dir"/thumbnail.jpg 2>/dev/null) \
             --title "$(jq -r .title "$dir/metadata.json")" --notes-file notes.md --target main
 
       # Read by the Claude monitor routine. Only outcomes and whether each secret is set; never values.
@@ -90,7 +93,7 @@ jobs:
         env:
           JOB_STATUS: ${{ job.status }}
           OUTCOME_INSTALL: ${{ steps.install.outcome }}
-          OUTCOME_FOOTAGE: ${{ steps.footage.outcome }}
+          OUTCOME_MUSIC: ${{ steps.music.outcome }}
           OUTCOME_DAILY: ${{ steps.daily.outcome }}
           OUTCOME_RELEASE: ${{ steps.release.outcome }}
           ENTRY: ${{ steps.daily.outputs.entry }}
@@ -98,7 +101,7 @@ jobs:
           HAS_YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID != '' }}
           HAS_YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET != '' }}
           HAS_YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN != '' }}
-          HAS_FOOTAGE_URL: ${{ secrets.FOOTAGE_URL != '' }}
+          HAS_MUSIC_URL: ${{ secrets.MUSIC_URL != '' }}
         run: python .github/scripts/record_status.py
 
       - name: Commit the archive and status
@@ -111,6 +114,6 @@ jobs:
           git add status
           if [ -n "$ENTRY" ]; then git add library studio/AGENTS.md; fi
           git diff --cached --quiet && exit 0
-          git commit -m "Daily Short ${ENTRY:-run}: $(jq -r .job_status status/last-run.json)"
+          git commit -m "Video ${ENTRY:-run}: $(jq -r .job_status status/last-run.json)"
           git pull --rebase origin main
           git push origin HEAD:main

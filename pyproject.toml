@@ -5,14 +5,14 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "content-pilot"
 version = "0.1.0"
-description = "AI guided YouTube Shorts generator"
+description = "AI-run cartoon history YouTube channel"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "langchain>=1.4",
     "langchain-google-genai>=4.4",
     "python-dotenv>=1.0",
-    "edge-tts>=7.0",
+    "edge-tts>=7.3.1",
     "pydantic>=2.0",
     "pillow>=10.0",
 ]

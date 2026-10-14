@@ -5,7 +5,7 @@ from content_pilot.agent.tools import check_script
 
 class CheckScriptTest(unittest.TestCase):
     def test_bundled_example_passes(self):
-        result = check_script.invoke({"path": "/skills/writing/shorts-script/example.json"})
+        result = check_script.invoke({"path": "/skills/writing/history-script/example.json"})
         self.assertTrue(result.endswith("OK"), result)
 
     def test_refuses_paths_outside_studio(self):

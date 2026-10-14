@@ -1,4 +1,4 @@
-"""The nightly job: learn from past videos, make today's Short, upload it, archive everything.
+"""The scheduled job: learn from past videos, make the next cartoon history video, upload it, archive everything.
 
     content-pilot-daily              # full run, uploads publicly
     content-pilot-daily --no-upload  # everything except the upload
@@ -6,7 +6,7 @@
 1. Refresh retention stats for uploaded videos from YouTube Analytics (library/<id>/stats.json).
 2. The producer's team picks a topic, researches, writes, critiques and packages it, unattended.
 3. Hard checks in code, not the model: check_script must say OK (two repair rounds allowed).
-4. Render, upload, and save every artifact in library/<date>_<slug>/.
+4. Render (scene art, voice, subtitles, thumbnail), upload, and save every artifact in library/<date>_<slug>/.
 """
 
 import argparse
@@ -60,7 +60,7 @@ def produce(model: str | None, today: date):
 
     agent = build_agent(model=model, autonomous=True)
     config = {"configurable": {"thread_id": f"daily-{today.isoformat()}"}, "recursion_limit": 300}
-    message = prompts.DAILY_BRIEF.format(today=today.isoformat())
+    message = prompts.DAILY_BRIEF.format(today=today.isoformat(), minutes=f"{Settings().minutes:g}")
     for attempt in range(REPAIR_ROUNDS + 1):
         state = agent.invoke({"messages": [{"role": "user", "content": message}]}, config=config)
         result = state.get("structured_response")
@@ -94,7 +94,7 @@ def run(upload: bool, model: str | None = None, settings: Settings | None = None
     today = date.today()
     refresh_stats(library)
 
-    log("producer team at work")
+    log(f"producer team at work ({settings.minutes:g}-minute video)")
     result, verdict = produce(model, today)
     script_file = studio_path(result.script_path)
     script = load_script(script_file)
@@ -120,17 +120,23 @@ def run(upload: bool, model: str | None = None, settings: Settings | None = None
             render_meta = json.loads(video.with_suffix(".json").read_text())
             work = Path(tmp) / f"work_{video.stem}"
             entry.add(video, "video.mp4")
-            entry.add(work / "voice.mp3")
-            entry.add(work / "captions.json")
-        entry.update(status="rendered", duration=render_meta["duration"], background=render_meta["background"])
-        log(f"rendered {render_meta['duration']}s")
+            for name in ("voice.mp3", "captions.json", "scenes.json", "thumbnail.jpg"):
+                entry.add(work / name)
+        entry.update(status="rendered", duration=render_meta["duration"], chapters=render_meta["chapters"],
+                     scenes=render_meta["scenes"], music=render_meta["music"],
+                     placeholder_art=render_meta["placeholder_art"])
+        log(f"rendered {render_meta['duration'] / 60:.1f} min, {render_meta['scenes']} scenes")
+        if upload and render_meta["placeholder_art"]:
+            raise RuntimeError("rendered with placeholder art (no GOOGLE_API_KEY); refusing to publish")
 
         if upload:
             from .youtube.upload import upload as yt_upload
 
-            up = yt_upload(entry.path / "video.mp4", script.title, script.description, script.hashtags)
-            entry.update(status="uploaded", youtube_id=up["id"], youtube_url=up["url"], privacy=up["privacy"])
-            log(f"uploaded {up['url']} ({up['privacy']})")
+            up = yt_upload(entry.path / "video.mp4", script.title, script.description, script.hashtags,
+                           render_meta["chapters"], entry.path / "thumbnail.jpg")
+            entry.update(status="uploaded", youtube_id=up["id"], youtube_url=up["url"], privacy=up["privacy"],
+                         thumbnail=up["thumbnail"])
+            log(f"uploaded {up['url']} ({up['privacy']}), thumbnail {up['thumbnail']}")
             if up["privacy"] != "public":
                 log("YouTube kept it non-public: unaudited API projects can only upload private videos")
     except Exception as e:

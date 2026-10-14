@@ -1,24 +1,28 @@
 # Maintainer runbook
 
-A Claude cloud routine follows this every morning at 08:00 IST, about eight hours after the
-nightly Daily Short (00:00 IST). Edit this file to change what it does.
+A Claude cloud routine follows this every morning at 08:00 IST. The *Publish Video* workflow
+makes and uploads a ~5 minute cartoon history video every other day at 00:00 IST (odd days of
+the month). Edit this file to change what it does.
 
 ## Inputs
 
-- `status/last-run.json`, `status/runs.jsonl`: one record per nightly run, written by the
+- `status/last-run.json`, `status/runs.jsonl`: one record per publish run, written by the
   workflow: job status, outcome of each step, which secrets are set (true/false), library entry.
 - `library/index.jsonl`, `library/<entry>/metadata.json`: every video, its status and, when it
   failed, the error. `library/<entry>/stats.json`: views and % watched from YouTube Analytics.
 - `studio/AGENTS.md`: channel memory; `## Lessons learned` is where evidence-backed lessons go.
 
-## 1. Did last night's run happen?
+## 1. Did the last scheduled run happen?
+
+Runs are expected on odd days of the month (the 1st, 3rd, ... 31st). On an even day with no new
+run, that is normal: report the last run instead and say no run was scheduled.
 
 Today's date in IST is `TZ=Asia/Kolkata date +%F`. Look for a record in `status/runs.jsonl`
 with that `date_ist` (a run finishing just before midnight UTC can carry yesterday's date;
-treat a record from the last 12 hours as last night's).
+treat a record from the last 12 hours as last night's run).
 
-- **No record**: the job never started or could not commit. Likely causes, in order: GitHub
-  Actions billing or spending limit, the workflow disabled (GitHub turns off schedules after 60
+- **No record on a run day**: the job never started or could not commit. Likely causes, in
+  order: GitHub Actions billing or spending limit, the workflow disabled (GitHub turns off schedules after 60
   days without repo activity), the workflow file broken. Report it as **DOWN**. Check
   `.github/workflows/daily-short.yml` for a syntax problem and fix it if there is one.
 - **`job_status: success`** and the entry's `metadata.json` says `uploaded`: **OK**. Note the
@@ -32,15 +36,19 @@ treat a record from the last 12 hours as last night's).
     failure came before archiving: producer, model or credentials). Classify:
     - credential/auth (`invalid_grant`, 401/403, API key invalid, quota) → **NEEDS YOU**, explain
       the fix (e.g. re-run `content-pilot-auth`, consent screen must be *In production*).
+    - "Gemini image quota exhausted" or "placeholder art" → **NEEDS YOU**: image generation needs
+      billing enabled on the GOOGLE_API_KEY project, or the daily image quota ran out.
+    - Edge TTS failures (403, timeouts) → usually Microsoft rotated the endpoint: try upgrading
+      `edge-tts` in `pyproject.toml`; that is a code fix.
     - model/API outage or rate limit → transient; report, no change.
     - a bug in our code → **FIXED (PR)**: fix it as below.
 
 ## 2. How did the videos do?
 
-From the `stats.json` files of the last 14 days, report a small table: date, title, views,
-% watched. Name the best and the worst and one concrete reason grounded in the scripts
-(hook, topic, length). Only when the evidence is clear (at least 5 videos with stats), add
-**one** line to `## Lessons learned` in `studio/AGENTS.md`: what worked or failed, with the
+From the `stats.json` files of the last 30 days, report a small table: date, title, views,
+% watched, average view duration. Name the best and the worst and one concrete reason grounded
+in the scripts (cold open, story choice, length, thumbnail text). Only when the evidence is
+clear (at least 4 videos with stats), add **one** line to `## Lessons learned` in `studio/AGENTS.md`: what worked or failed, with the
 video dates and numbers. Never invent numbers.
 
 ## 3. Housekeeping (Mondays only)
@@ -65,9 +73,9 @@ End with this, short enough to read on a phone:
 
 ```
 content-pilot · <date>
-Last night: OK | FAILED | DOWN | NEEDS YOU — <one line>
+Last run: OK | FAILED | DOWN | NEEDS YOU | NO RUN DUE — <one line>
 Video: <title> — <YouTube URL> (<privacy>)
-Last 14 days: <n> videos, best <title> (<% watched>), worst <title> (<% watched>)
+Last 30 days: <n> videos, best <title> (<% watched>), worst <title> (<% watched>)
 Action for you: <exact steps, or "none">
 PR: <url or "none">
 ```

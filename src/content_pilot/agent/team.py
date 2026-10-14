@@ -1,7 +1,7 @@
 """The producer's specialists: each gets only the tools and skill groups its job needs.
 
 Skill groups are folders under studio/skills/, so an agent loads just its own skills:
-    writing/      shorts-script, yt-script     scriptwriter, critic, repurposer
+    writing/      history-script, yt-script    scriptwriter, critic, repurposer
     packaging/    yt-package, yt-seo           packager
     trends/       yt-viral                     trend-scout
     repurposing/  yt-shorts, yt-chapters, yt-edit   repurposer
@@ -27,7 +27,7 @@ TEAM = [
     {
         "name": "trend-scout",
         "description": "Finds what is working in the niche now, ranked by how far each video beat its "
-                       "own channel, and proposes Short topics. Give it the niche and a /research/ "
+                       "own channel, and proposes true history stories to tell. Give it a /research/ "
                        "path for the collected JSON.",
         "system_prompt": prompts.TREND_SCOUT,
         "tools": [WEB_SEARCH, rank_outliers],
@@ -42,15 +42,16 @@ TEAM = [
     },
     {
         "name": "scriptwriter",
-        "description": "Writes a Short's script from research: five hooks scored, the best built out, "
-                       "validated with check_script. Give it the research path and the /scripts/ path.",
+        "description": "Writes a cartoon history script from research: chapters of narrated scenes "
+                       "with image descriptions, five hooks scored, validated with check_script. Give "
+                       "it the research path and the /scripts/ path.",
         "system_prompt": prompts.SCRIPTWRITER,
         "tools": [score_hooks, check_script],
         "skills": skills("writing"),
     },
     {
         "name": "critic",
-        "description": "Independent retention review of a script: scores and up to three rewrites. "
+        "description": "Independent retention and fact review of a script: scores and up to five rewrites. "
                        "Give it the script path.",
         "system_prompt": prompts.CRITIC,
         "tools": [score_hooks],
@@ -66,8 +67,8 @@ TEAM = [
     },
     {
         "name": "repurposer",
-        "description": "Cuts Shorts, chapters or an edit decision list from a long video's transcript "
-                       "in /inputs/. Say which of the three you want and where to write.",
+        "description": "Finds Short-worthy moments, chapters or an edit decision list in a long "
+                       "video's transcript in /inputs/. Say which of the three you want and where to write.",
         "system_prompt": prompts.REPURPOSER,
         "tools": [score_hooks, check_script, make_chapters, find_dead_air],
         "skills": skills("repurposing", "writing"),
