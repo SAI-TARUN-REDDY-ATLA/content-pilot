@@ -52,7 +52,10 @@ def main() -> None:
     from . import daily
 
     try:
-        entry = daily.run(upload=args.upload, settings=settings)
+        if args.upload and args.placeholder_art:
+            parser.error("--placeholder-art videos are previews and can't be uploaded")
+        entry = daily.run(upload=args.upload, settings=settings,
+                          placeholders=True if args.placeholder_art else None)
     except Exception as e:
         sys.exit(f"content-pilot: {type(e).__name__}: {e}")
     print(f"\nVideo: {entry.path / 'video.mp4'}")

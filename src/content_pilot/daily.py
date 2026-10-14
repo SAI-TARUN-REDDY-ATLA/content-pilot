@@ -83,7 +83,8 @@ def hook_score(hook: str) -> int | None:
     return int(m.group(1)) if m else None
 
 
-def run(upload: bool, model: str | None = None, settings: Settings | None = None) -> Entry:
+def run(upload: bool, model: str | None = None, settings: Settings | None = None,
+        placeholders: bool | None = None) -> Entry:
     from .agent.tools import studio_path
     from .pipeline import make_video
     from .pipeline.script import load_script
@@ -116,7 +117,7 @@ def run(upload: bool, model: str | None = None, settings: Settings | None = None
     try:
         with tempfile.TemporaryDirectory() as tmp:
             video = make_video(None, Path(tmp), settings, script_path=script_file,
-                               seed=int(today.strftime("%Y%m%d")))
+                               seed=int(today.strftime("%Y%m%d")), placeholders=placeholders)
             render_meta = json.loads(video.with_suffix(".json").read_text())
             work = Path(tmp) / f"work_{video.stem}"
             entry.add(video, "video.mp4")

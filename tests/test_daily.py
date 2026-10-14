@@ -17,7 +17,7 @@ RENDER_META = {"duration": 301.5, "chapters": "0:00 Cold Open\n0:20 Farmers", "s
                "music": None, "placeholder_art": False}
 
 
-def fake_make_video(topic, out_dir, settings, script_path, seed, meta=RENDER_META):
+def fake_make_video(topic, out_dir, settings, script_path, seed, placeholders=None, meta=RENDER_META):
     work = out_dir / "work_x"
     work.mkdir(parents=True)
     (work / "voice.mp3").write_bytes(b"mp3")
